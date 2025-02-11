@@ -1,11 +1,11 @@
 services:
   frontend:
     build:
-      context: ./app
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Docker/Dockerfile
     volumes:
-      - ./app:/usr/src/app
-    #  - /next-app/node_modules
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - '3002:3002'
     environment:
