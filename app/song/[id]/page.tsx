@@ -11,7 +11,8 @@ export async function generateStaticParams() {
 }
 
 export default async function SongPage({ params }: { params: { id: string } }) {
-  const song = songs.find(s => s.id === parseInt(params.id));
+  const { id } = await params;
+  const song = songs.find(s => s.id === parseInt(id));
   
   if (!song) {
     return <div>Song not found</div>;
