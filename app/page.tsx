@@ -67,7 +67,7 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="pt-24 pb-8">
+      <main className="pt-24 pb-8 text-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
