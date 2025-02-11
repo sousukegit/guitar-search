@@ -21,3 +21,11 @@ rebuild:
 # ボリュームを含めて完全に停止
 clean:
 	docker compose -f $(DOCKER_COMPOSE_FILE) down -v
+
+# コンテナに入る
+bash:
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec frontend bash
+
+# コンテナを停止
+stop:
+	docker compose -f $(DOCKER_COMPOSE_FILE) stop
