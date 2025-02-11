@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  name  String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Artist {
+  artist_id     Int      @id @default(autoincrement())
+  english_name  String
+  japanese_name String?
+  kana_name     String?
+  created_at    DateTime @default(now())
+  songs         Song[]
+}
+
+model Song {
+  song_id         Int      @id @default(autoincrement())
+  title           String
+  youtube_music_id String?
+  url             String?
+  duration        Float?
+  created_at      DateTime @default(now())
+  artist_id       Int?
+  release_date    DateTime?
+  is_separated    Boolean  @default(false)
+  artist          Artist?  @relation(fields: [artist_id], references: [artist_id])
+  soro            Soro[]
+}
+
+model Soro {
+  soro_id        Int      @id @default(autoincrement())
+  song_id        Int
+  start_time     Float
+  end_time       Float
+  is_guitar_soro Boolean  @default(false)
+  guitar_score   Float?
+  created_at     DateTime @default(now())
+  song           Song     @relation(fields: [song_id], references: [song_id])
+}
