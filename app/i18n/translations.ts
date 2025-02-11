@@ -21,7 +21,7 @@ export const translations = {
   },
   ja: {
     search: "曲名、アーティスト、ジャンルで検索...",
-    title: "ギター曲検索",
+    title: "ギター音楽を検索しよう",
     subtitle: "次のギターインスピレーションを見つけよう",
     menu: {
       home: "ホーム",
