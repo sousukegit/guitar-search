@@ -33,7 +33,7 @@ model Artist {
 model Song {
   song_id         Int      @id @default(autoincrement())
   title           String
-  youtube_music_id String?
+  youtube_music_id String?  @unique
   url             String?
   duration        Float?
   created_at      DateTime @default(now())
