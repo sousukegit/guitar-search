@@ -12,6 +12,10 @@ export async function GET(
   
   // 数値の場合は変換してください
   const song = await prisma.song.findUnique({
+    include: {
+      artist: true,
+      soro: true
+    },
     where: { song_id: Number(song_id) },
   });
 

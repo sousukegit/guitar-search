@@ -3,14 +3,8 @@ import { useEffect, useState } from 'react';
 // import { songs } from '@/app/data/songs';
 import { usePathname } from 'next/navigation';
 import { SongClient } from './client';
+import { Song } from '@/app/type/type';
 
-
-type Song = {
-  song_id: number;
-  title: string;
-  artist: string;
-  // 必要に応じて他のプロパティも追加してください
-};
 
 export default function SongPage() {
   const [song, setSong] = useState<Song | null>(null);
@@ -29,6 +23,7 @@ export default function SongPage() {
         if (res.ok) {
           const data: Song = await res.json();
           setSong(data);
+          console.log(data);
         } else {
           console.error('Song not found');
         }
@@ -40,6 +35,7 @@ export default function SongPage() {
     };
 
     fetchSong();
+
   }, [songId]);
 
   if (loading) return (<div className="min-h-screen bg-black text-white"><p>Loading...</p></div>);

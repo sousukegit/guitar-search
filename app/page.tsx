@@ -8,31 +8,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { translations } from './i18n/translations';
+import { Song } from './type/type';
 // import { songs } from './data/songs';
-
-type Artist = {
-  artist_id: number;
-  created_at: string;
-  english_name: string;
-  japanese_name: string;
-  kana_name: string | null;
-};
-
-type Song = {
-  song_id:number,
-  title:string,
-  youtube_music_id:string,
-  duration:number,
-  release_date:Date,
-  artist:Artist,
-  soro:Soro[]
-}
-
-type Soro = {
-  soro_id:number,
-  is_guitar_soro:boolean
-  
-}
 
 export default function Home() {
   const router = useRouter();
