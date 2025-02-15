@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Guitar, Calendar, Music2, Menu, User, Globe } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,9 @@ export default function Home() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [language, setLanguage] = useState<'en' | 'ja'>('en');
+  const [fetchedSongs, setFetchedSongs] = useState<{ id: number; title: string }[]>([]);
+
+
   const t = translations[language];
 
   const filteredSongs = songs.filter(song => {
@@ -22,6 +25,21 @@ export default function Home() {
            song.artist.toLowerCase().includes(searchLower) ||
            song.genre.toLowerCase().includes(searchLower);
   });
+
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const res = await fetch("/api/songs"); // ✅ クライアントからAPIエンドポイントを直接呼び出す
+        if (!res.ok) throw new Error("Failed to fetch songs");
+        const data = await res.json();
+        setFetchedSongs(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSongs();
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -123,6 +141,18 @@ export default function Home() {
             ))}
           </div>
         </div>
+        <div className="w-full max-w-xs aspect-square">
+          <img
+            src="https://i.ytimg.com/vi/CfwGsFV7jNc/sddefault.jpg"
+            alt="logo"
+            className="object-cover w-full h-full rounded"
+          />
+        </div>
+        <ul>
+        {fetchedSongs.map((song) => (
+          <li key={song.id}>{song.title}</li>
+        ))}
+      </ul>
       </main>
     </div>
   );
