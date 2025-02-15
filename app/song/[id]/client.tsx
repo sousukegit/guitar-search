@@ -18,26 +18,26 @@ export function SongClient({ song }: SongClientProps) {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="relative">
-        <div className="h-[50vh] w-full relative">
-          <img
-            src={song.thumbnail}
-            alt={song.title}
-            className="w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
-        </div>
+      <header className="relative">
+
         
         <Button
-          variant="secondary"
-          className="absolute top-4 left-4 text-white"
+          className="top-4 left-4 text-white"
           onClick={() => router.back()}
         >
           <ArrowLeft className="h-6 w-6 mr-2" />
           {t.songDetails.back}
         </Button>
-      </div>
-
+      </header>
+      <main>
+        <div className=" w-full flex justify-center items-center">
+          <img
+             src={`https://i.ytimg.com/vi/${song.youtube_music_id}/sddefault.jpg`}
+            alt={song.title}
+            className="w-full  mx-10"
+          />
+        </div>
+      </main>
       {/* 以前のJSXの残りの部分をここに移動 */}
       {/* ... */}
     </div>
