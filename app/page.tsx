@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, Guitar, Calendar, Music2, Menu, User, Globe } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -8,20 +8,39 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { translations } from './i18n/translations';
-import { songs } from './data/songs';
+import { Song } from './type/type';
+// import { songs } from './data/songs';
 
 export default function Home() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [language, setLanguage] = useState<'en' | 'ja'>('en');
+  const [fetchedSongs, setFetchedSongs] = useState<Song[]>([]);
+
+
   const t = translations[language];
 
-  const filteredSongs = songs.filter(song => {
+  const filteredSongs:Song[] = fetchedSongs.filter(song => {
     const searchLower = searchTerm.toLowerCase();
     return song.title.toLowerCase().includes(searchLower) ||
-           song.artist.toLowerCase().includes(searchLower) ||
-           song.genre.toLowerCase().includes(searchLower);
+           song.artist.japanese_name.toLowerCase().includes(searchLower)
   });
+
+  useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const res = await fetch("/api/songs"); // ✅ クライアントからAPIエンドポイントを直接呼び出す
+        if (!res.ok) throw new Error("Failed to fetch songs");
+        const data = await res.json();
+        setFetchedSongs(data);
+        console.log(data)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSongs();
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -81,21 +100,24 @@ export default function Home() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredSongs.map((song) => (
               <Card
-                key={song.id}
+                key={song.song_id}
                 className="bg-gray-900 border-gray-700 cursor-pointer hover:bg-gray-800 transition-colors"
-                onClick={() => router.push(`/song/${song.id}`)}
+                onClick={() => router.push(`/song/${song.song_id}`)}
               >
                 <CardContent className="p-0">
                   <div className="relative">
                     <img
-                      src={song.thumbnail}
+                      src={`https://i.ytimg.com/vi/${song.youtube_music_id}/sddefault.jpg`}
                       alt={song.title}
                       className="w-full h-64 object-cover rounded-t-lg"
                     />
                     <div className="absolute top-2 right-2">
-                      <Badge variant={song.hasGuitar ? "default" : "secondary"} className="flex items-center gap-1">
+                      <Badge
+                        variant={song.soro.some((s) => s.is_guitar_soro) ? "default" : "secondary"}
+                        className="flex items-center gap-1"
+                      >
                         <Guitar className="h-4 w-4" />
-                        {song.hasGuitar ? 'Guitar' : 'No Guitar'}
+                        {song.soro.some((s) => s.is_guitar_soro) ? 'Guitar' : 'No Guitar'}
                       </Badge>
                     </div>
                   </div>
@@ -104,17 +126,17 @@ export default function Home() {
                     <div className="flex flex-col gap-2 text-gray-400">
                       <div className="flex items-center gap-2">
                         <Music2 className="h-4 w-4" />
-                        <span>{song.artist}</span>
+                        <span>{song.artist.japanese_name}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge variant="outline" className="text-sm">
-                          {song.genre}
+                          Rock
                         </Badge>
                       </div>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
-                        <span>{new Date(song.releaseDate).getFullYear()}</span>
-                        <span className="ml-auto">{song.interval}</span>
+                        <span>{new Date(song.release_date).getFullYear()}</span>
+                        <span className="ml-auto">{Math.floor(song.duration / 60)}:{String(song.duration % 60).padStart(2, '0')}</span>
                       </div>
                     </div>
                   </div>

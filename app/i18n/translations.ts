@@ -1,7 +1,7 @@
 export const translations = {
   en: {
     search: "Search songs, artists, or genres...",
-    title: "Guitar Music Search",
+    title: "Guitar Finder",
     subtitle: "Find your next guitar inspiration",
     menu: {
       home: "Home",
