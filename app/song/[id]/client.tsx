@@ -15,7 +15,7 @@ export function SongClient({ song }: SongClientProps) {
   const t = translations['en'];
 
   return (
-    <div className=" bg-black text-white">
+    <div className="min-h-screen bg-black text-white">
       <header className="relative">
 
         
@@ -59,7 +59,7 @@ export function SongClient({ song }: SongClientProps) {
               )}s - ${segment.end_time.toFixed(2)}s`}
             >
               <span className="absolute top-1/2 left-2 -translate-y-1/2 text-xs text-white">
-                {segment.is_guitar_soro ? '🎸' : '🈚'}
+                {segment.is_guitar_soro ? '🎸' : '😑'}
               </span>
             </div>
           );
