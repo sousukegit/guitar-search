@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
@@ -6,9 +5,9 @@ const prisma = new PrismaClient();
 
 export async function GET(
   request: Request,
-  { params }: { params: { song_id: string } }
+  { params }: { params: Promise<{ song_id: string }> }
 ) {
-  const { song_id } = params;
+  const { song_id } = await params;
   
   // 数値の場合は変換してください
   const song = await prisma.song.findUnique({

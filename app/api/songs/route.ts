@@ -11,6 +11,7 @@ export async function GET() {
     }); // `song` テーブルからデータ取得
     return NextResponse.json(songs);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Failed to fetch songs" }, { status: 500 });
   }
 }
